@@ -66,13 +66,13 @@ namespace ConsoleApp4
 
 
             // Create a channel for communication
-            channel = connection.CreateModel();
+
 
             // ReadMessageWithPushModel(channel);
-            ReadMessageWithPullModel(channel);
+            // ReadMessageWithPullModel(channel);
 
-            System.Console.WriteLine("Press [enter] to exit the sender app.");
-            System.Console.ReadLine();
+            // System.Console.WriteLine("Press [enter] to exit the sender app.");
+            // System.Console.ReadLine();
 
             #endregion
 
@@ -250,6 +250,102 @@ namespace ConsoleApp4
             //channel.ExchangeDelete("alternate-exchange");
 
             #endregion
+
+            #region Dead Letter Exchange
+            //an exchange to which messages will be republished if they are rejected or expire.
+
+            //channel.ExchangeDeclare("dead-letter-exchange", ExchangeType.Fanout, true, false, null);
+            //channel.ExchangeDeclare("my-exchange", ExchangeType.Direct, true, false, null);
+            //channel.QueueDeclare("my-queue", true, false, false, new Dictionary<string, object> { { "x-dead-letter-exchange", "dead-letter-exchange" } });
+            //channel.QueueDeclare("dead-letter-queue", true, false, false, null);
+
+            //channel.QueueBind("my-queue", "my-exchange", "my-queue", null);
+            //channel.QueueBind("dead-letter-queue", "dead-letter-exchange", "", null);
+
+            //byte[] messageBodyBytes1 = System.Text.Encoding.UTF8.GetBytes("Hello, world!1");
+
+            //var properties = channel.CreateBasicProperties();
+
+            //// Set expiration to 5 seconds (5000 milliseconds)
+            //properties.Expiration = "5000";
+
+
+            //channel.BasicPublish("my-exchange", "my-queue", properties, messageBodyBytes1);
+
+
+
+
+            //System.Console.WriteLine("Message Sent");
+            //System.Console.WriteLine("Press [enter] to exit the sender app.");
+            //System.Console.ReadLine();
+
+            //channel.QueueDelete("my-queue");
+            //channel.QueueDelete("dead-letter-queue");
+            //channel.ExchangeDelete("my-exchange");
+            //channel.ExchangeDelete("dead-letter-exchange");
+
+            #endregion
+
+            //==============================================================
+
+
+
+            #region work queues
+
+            //Console.WriteLine("enter worker name");
+            //var workerName = Console.ReadLine();
+
+
+            //var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
+            //consumer.Received += (model, ea) =>
+            //{
+
+            //    var message = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
+            //    System.Console.WriteLine($"{workerName} - Message Received {message}");
+            //};
+            //var consumerTag = channel.BasicConsume("q1", true, consumer);//true for autoack , false for manual ack
+
+            //Console.WriteLine("Press [enter] to exit the sender app.");
+            //Console.ReadLine();
+
+            #endregion
+
+            #region work queues with fair dispatch
+
+            Console.WriteLine("enter worker name");
+            var workerName = Console.ReadLine();
+
+            channel.BasicQos(0, 1, false);//prefetch count 1 tells rabbitmq to send only one message at a time to worker
+
+            var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+
+                var message = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
+                System.Console.Write($"{workerName} - Message Received {message} ");
+                Thread.Sleep(int.Parse(message) * 1000);
+                channel.BasicAck(ea.DeliveryTag, false);
+                Console.WriteLine($" Done");
+
+            };
+            var consumerTag = channel.BasicConsume("q1", false, consumer);//true for autoack , false for manual ack
+
+            Console.WriteLine("Press [enter] to exit the sender app.");
+            Console.ReadLine();
+
+            #endregion
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
