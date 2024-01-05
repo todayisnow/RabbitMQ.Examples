@@ -1,4 +1,5 @@
 ﻿using RabbitMQ.Client;
+using System.Text;
 
 namespace ConsoleApp4
 {
@@ -62,34 +63,17 @@ namespace ConsoleApp4
 
             #region Create Consumer for  exchange
             // Create a connection to the RabbitMQ server
-            //IConnection connection;
-            //IModel channel;
-            //ConnectionFactory factory = new ConnectionFactory();
-            //factory.UserName = "guest";
-            //factory.Password = "guest";
-            //factory.VirtualHost = "/";
-            //factory.HostName = "localhost";
-            //factory.Port = 5672;
-            //connection = factory.CreateConnection();
 
-            //// Create a channel for communication
-            //channel = connection.CreateModel();
-            //var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
-            //consumer.Received += (model, ea) =>
-            //{
 
-            //    var message = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
-            //    System.Console.WriteLine("Message Received {0}", message);
+            // Create a channel for communication
+            channel = connection.CreateModel();
 
-            //    //channel.BasicAck(ea.DeliveryTag, false); //acknowledgement
-            //    channel.BasicNack(ea.DeliveryTag, false, true);//requeue if false then message will be discarded
-            //};
-            //var consumerTag = channel.BasicConsume("fanout-queue1", false, consumer);//true for autoack , false for manual ack
-            //System.Console.WriteLine("Press [enter] to exit the sender app.");
-            //System.Console.ReadLine();
-            //// Close the channel and connection
-            //channel.Close();
-            //connection.Close();
+            // ReadMessageWithPushModel(channel);
+            ReadMessageWithPullModel(channel);
+
+            System.Console.WriteLine("Press [enter] to exit the sender app.");
+            System.Console.ReadLine();
+
             #endregion
 
             #region Direct Exchange
@@ -197,15 +181,15 @@ namespace ConsoleApp4
             #endregion
 
             #region default exchange
-            channel.QueueDeclare("default-queue", true, false, false, null);
-            byte[] messageBodyBytes1 = System.Text.Encoding.UTF8.GetBytes("Hello, world!1");
+            //channel.QueueDeclare("default-queue", true, false, false, null);
+            //byte[] messageBodyBytes1 = System.Text.Encoding.UTF8.GetBytes("Hello, world!1");
 
-            channel.BasicPublish("", "default-queue", null, messageBodyBytes1);
+            //channel.BasicPublish("", "default-queue", null, messageBodyBytes1);
 
-            System.Console.WriteLine("Message Sent");
-            System.Console.WriteLine("Press [enter] to exit the sender app.");
-            System.Console.ReadLine();
-            channel.QueueDelete("default-queue");
+            //System.Console.WriteLine("Message Sent");
+            //System.Console.WriteLine("Press [enter] to exit the sender app.");
+            //System.Console.ReadLine();
+            //channel.QueueDelete("default-queue");
             #endregion
 
             #region exchange to exchange binding
@@ -272,6 +256,49 @@ namespace ConsoleApp4
             channel.Close();
             connection.Close();
 
+        }
+
+        public static void ReadMessageWithPushModel(IModel channel)
+        {
+            var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+
+                var message = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
+                System.Console.WriteLine("Message Received {0}", message);
+
+                //manual acknowledgement 
+                channel.BasicAck(ea.DeliveryTag, false);
+                //requeue if false then message will be discarded if true then message will be requeued
+                //channel.BasicNack(ea.DeliveryTag, false, true);
+            };
+            var consumerTag = channel.BasicConsume("q1", false, consumer);//true for autoack , false for manual ack
+
+        }
+        public static void ReadMessageWithPullModel(IModel channel)
+        {
+            Console.WriteLine("Reading messages from queue. Press 'e' to exit.");
+
+            while (true)
+            {
+                Console.WriteLine("Trying to get a message from the queue...");
+
+                BasicGetResult result = channel.BasicGet("q1", true);
+                if (result != null)
+                {
+                    string message = Encoding.UTF8.GetString(result.Body.ToArray());
+                    Console.WriteLine("Message:" + message);
+                }
+
+                if (Console.KeyAvailable)
+                {
+                    var keyInfo = Console.ReadKey();
+                    if (keyInfo.KeyChar == 'e' || keyInfo.KeyChar == 'E')
+                        return;
+                }
+
+                Thread.Sleep(2000);
+            }
         }
 
 

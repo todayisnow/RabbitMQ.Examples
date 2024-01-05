@@ -187,5 +187,50 @@ When working with RabbitMQ, message acknowledgement is a crucial aspect of ensur
 
 - **Dead Letter Exchanges:**
   - Consider using dead letter exchanges to handle messages that fail processing after multiple retries.
+  
+  
+# Message Pull vs Push in RabbitMQ
+
+## Message Push Model:
+
+- **Description:**
+  - In a push model, messages are actively pushed from the message broker (RabbitMQ) to the consumers.
+  - The broker takes the initiative to send messages to subscribed consumers.
+
+- **Advantages:**
+  - Real-time delivery: Messages are delivered to consumers as soon as they are available.
+  - Suitable for scenarios where low-latency and real-time processing are critical.
+
+- **Considerations:**
+  - Consumers need to maintain an open connection to the broker.
+  - May lead to increased resource consumption on both the broker and consumers, especially with a large number of consumers.
+
+## Message Pull Model:
+
+- **Description:**
+  - In a pull model, consumers actively request messages from the broker when they are ready to process.
+  - Consumers control when and how many messages they want to pull from the queue.
+
+- **Advantages:**
+  - Consumers have more control over the message retrieval process.
+  - Resource consumption is more predictable as consumers pull messages based on their capacity.
+
+- **Considerations:**
+  - Requires consumers to periodically poll the broker for new messages.
+  - Slightly higher latency as messages are delivered when consumers request them.
+
+## Choosing Between Push and Pull:
+
+- **Use Push When:**
+  - Real-time processing is crucial.
+  - The system can handle the continuous connection between broker and consumers.
+
+- **Use Pull When:**
+  - Consumers need more control over when they receive messages.
+  - Resource efficiency and predictability are priorities.
+
+Both models have their merits, and the choice often depends on the specific requirements of the system and the characteristics of the workload.
+
+
 
 
