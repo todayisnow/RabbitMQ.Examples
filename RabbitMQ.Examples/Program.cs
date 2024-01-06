@@ -312,32 +312,32 @@ namespace ConsoleApp4
 
             #region work queues with fair dispatch
 
-            Console.WriteLine("enter worker name");
-            var workerName = Console.ReadLine();
+            //Console.WriteLine("enter worker name");
+            //var workerName = Console.ReadLine();
 
-            channel.BasicQos(0, 1, false);//prefetch count 1 tells rabbitmq to send only one message at a time to worker
+            //channel.BasicQos(0, 1, false);//prefetch count 1 tells rabbitmq to send only one message at a time to worker
 
-            var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
-            {
+            //var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
+            //consumer.Received += (model, ea) =>
+            //{
 
-                var message = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
-                System.Console.Write($"{workerName} - Message Received {message} ");
-                Thread.Sleep(int.Parse(message) * 1000);
-                channel.BasicAck(ea.DeliveryTag, false);
-                Console.WriteLine($" Done");
+            //    var message = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
+            //    System.Console.Write($"{workerName} - Message Received {message} ");
+            //    Thread.Sleep(int.Parse(message) * 1000);
+            //    channel.BasicAck(ea.DeliveryTag, false);
+            //    Console.WriteLine($" Done");
 
-            };
-            var consumerTag = channel.BasicConsume("q1", false, consumer);//true for autoack , false for manual ack
+            //};
+            //var consumerTag = channel.BasicConsume("q1", false, consumer);//true for autoack , false for manual ack
 
-            Console.WriteLine("Press [enter] to exit the sender app.");
-            Console.ReadLine();
+            //Console.WriteLine("Press [enter] to exit the sender app.");
+            //Console.ReadLine();
 
             #endregion
 
 
 
-
+            //
 
 
 
