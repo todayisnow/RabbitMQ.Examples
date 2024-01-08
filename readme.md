@@ -345,7 +345,7 @@ Work queues are a powerful mechanism for building scalable and distributed syste
 ### Considerations:
 
 - **Correlation ID:**
-  - A unique identifier helps correlate requests with their corresponding replies.
+  - A unique identifier helps correlate requests with their corresponding replies. or you can use Header
 
 - **Timeouts and Error Handling:**
   - Implement timeouts and proper error handling to handle scenarios where replies are delayed or errors occur.
