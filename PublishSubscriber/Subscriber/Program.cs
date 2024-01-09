@@ -27,17 +27,37 @@ namespace Subscriber
             string queueName = Console.ReadLine();
 
             var consumer = new EventingBasicConsumer(channel);
+            #region no piroirity
+            //consumer.Received += (model, ea) =>
+            //{
+            //    // Convert the message to a string
+            //    string message = Encoding.UTF8.GetString(ea.Body.ToArray());
+            //    Thread.Sleep(1000);
+            //    Console.WriteLine($"from {queueName} Received message: {message}");
+            //};
+
+            //// Subscribe to the queue
+
+            //channel.BasicConsume(queueName, true, consumer);
+            #endregion
+            channel.BasicQos(0, 1, false);
             consumer.Received += (model, ea) =>
             {
                 // Convert the message to a string
                 string message = Encoding.UTF8.GetString(ea.Body.ToArray());
+                Thread.Sleep(1000);
                 Console.WriteLine($"from {queueName} Received message: {message}");
+                channel.BasicAck(ea.DeliveryTag, false);
             };
 
             // Subscribe to the queue
 
-            channel.BasicConsume(queueName, true, consumer);
+            channel.BasicConsume(queueName, false, consumer);
 
+            #region piroirity queue
+
+
+            #endregion
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
 

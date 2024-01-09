@@ -315,7 +315,7 @@ namespace ConsoleApp4
             //Console.WriteLine("enter worker name");
             //var workerName = Console.ReadLine();
 
-            //channel.BasicQos(0, 1, false);//prefetch count 1 tells rabbitmq to send only one message at a time to worker
+            //channel.BasicQos(0, 1, false);//Quality of Service (QoS) prefetch count 1 tells rabbitmq to send only one message at a time to worker and wait for ack
 
             //var consumer = new RabbitMQ.Client.Events.EventingBasicConsumer(channel);
             //consumer.Received += (model, ea) =>
