@@ -60,7 +60,7 @@ RabbitMQ consists of several key components that work together to provide a robu
 ## 1. **Message Broker:**
    - The central component responsible for receiving, storing, and routing messages between producers and consumers. It manages the message queues, exchanges, and routing.
 
-## 2. **Message:
+## 2. **Message:**
    - The basic unit of communication in RabbitMQ. A message contains the actual data payload that producers send and consumers receive.
 
 ## 3. **Producer:**
