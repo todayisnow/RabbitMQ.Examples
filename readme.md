@@ -114,10 +114,6 @@ RabbitMQ consists of several key components that work together to provide a robu
 - **Auto-Delete:** Deletes the exchange when no queues are bound to it.
 - **Arguments:** Additional settings or parameters for the exchange.
 
-# RabbitMQ Message Properties
-
-When working with RabbitMQ messages, the following properties provide essential metadata and characteristics:
-
 ## Common Message Properties:
 
 - **Content Type:**
