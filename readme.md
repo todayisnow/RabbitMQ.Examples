@@ -423,3 +423,40 @@ Queue priority is an essential feature in RabbitMQ that allows you to assign dif
   - Higher-priority messages may be processed more frequently, so ensure fair resource utilization among consumers.
 
 
+# Service Bus
+
+A Service Bus is a messaging infrastructure that facilitates communication between different components or services within a distributed system. It acts as an intermediary for sending and receiving messages, promoting loose coupling between components. Key concepts associated with a Service Bus include:
+
+- **Decoupling:** Service buses enable communication between components without tight coupling, allowing for flexibility and maintainability.
+
+- **Scalability:** Components can scale independently, addressing the varying resource needs of different parts of a system.
+
+- **Reliability:** Service buses enhance message delivery reliability, often providing features like message persistence and redelivery in case of failures.
+
+- **Message Routing:** Service buses can route messages based on criteria, supporting dynamic communication patterns.
+
+- **Message Transformation:** Transformation capabilities enable the modification of messages to ensure compatibility between different parts of the system.
+
+# MassTransit
+
+## Overview
+
+MassTransit is an open-source distributed application framework for .NET that simplifies the development of message-based applications. It abstracts away the complexities of messaging and provides tools for working with different message brokers, including RabbitMQ.
+
+## Key Concepts
+
+- **Consumers:** Consumers handle incoming messages and implement the `IConsumer<T>` interface, where `T` is the type of message being consumed.
+
+- **Publish-Subscribe:** MassTransit supports a publish-subscribe model, allowing components to publish messages to a topic, and other components can subscribe to receive those messages.
+
+- **Sagas:** Sagas manage long-running processes and workflows across multiple messages and services, maintaining the state of a process over time.
+
+- **Message Endpoint Configuration:** MassTransit simplifies the configuration of message endpoints, defining how messages are consumed and processed within the application.
+
+- **Middleware:** MassTransit supports middleware to customize message processing behavior by adding middleware components to the message pipeline.
+
+- **Dependency Injection:** Integration with dependency injection containers facilitates the management of component lifecycles and dependencies.
+
+- **Message Serialization:** MassTransit supports various serialization formats, providing flexibility in how messages are represented and transmitted.
+
+MassTransit abstracts away complexities, allowing developers to focus on application logic rather than the intricacies of the underlying message broker. If you have any further questions or need additional clarification, feel free to ask.
