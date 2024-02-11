@@ -1,4 +1,5 @@
 # RabbitMQ Overview
+![RabbitMQ Logo](https://i0.wp.com/pedrorijo.com/assets/img/rabbitmq_logo.png?resize=779%2C233&ssl=1)
 
 ## What is RabbitMQ?
 
