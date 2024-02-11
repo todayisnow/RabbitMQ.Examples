@@ -86,13 +86,13 @@ RabbitMQ consists of several key components that work together to provide a robu
    - A logical grouping mechanism that allows the segmentation of RabbitMQ instances. Each virtual host is a separate messaging environment with its own exchanges, queues, and users.
 
 ## 10. **Connection:**
-    - Represents a network connection between a client (producer or consumer) and the RabbitMQ server. Connections are established to exchange messages and perform administrative tasks.
+   - Represents a network connection between a client (producer or consumer) and the RabbitMQ server. Connections are established to exchange messages and perform administrative tasks.
 
 ## 11. **Channel:**
-    - A lightweight, multiplexed communication link within a connection. Channels allow multiple operations to be performed concurrently without requiring multiple connections.
+   - A lightweight, multiplexed communication link within a connection. Channels allow multiple operations to be performed concurrently without requiring multiple connections.
 
 ## 12. **Administration and Management Interface:**
-    - RabbitMQ provides a web-based management interface that allows administrators to monitor and manage RabbitMQ instances, including configuring exchanges, queues, users, and virtual hosts.
+   - RabbitMQ provides a web-based management interface that allows administrators to monitor and manage RabbitMQ instances, including configuring exchanges, queues, users, and virtual hosts.
 
 # RabbitMQ Concepts
 
